@@ -1,5 +1,6 @@
 package enablebanking
 
+import klite.base64Decode
 import klite.base64UrlEncode
 import klite.http.get
 import klite.http.httpClient
@@ -9,7 +10,6 @@ import java.security.KeyFactory
 import java.security.Signature
 import java.security.interfaces.RSAPrivateKey
 import java.security.spec.PKCS8EncodedKeySpec
-import java.util.Base64
 
 class Jwt {
   fun createJwt(): String {
@@ -35,7 +35,7 @@ class Jwt {
       .replace("-----END PRIVATE KEY-----", "")
       .replace("\\s".toRegex(), "")
 
-    val keySpec = PKCS8EncodedKeySpec(Base64.getDecoder().decode(cleanPem))
+    val keySpec = PKCS8EncodedKeySpec(cleanPem.base64Decode())
     return KeyFactory.getInstance("RSA").generatePrivate(keySpec) as RSAPrivateKey
   }
 }
