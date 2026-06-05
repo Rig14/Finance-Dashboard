@@ -1,0 +1,33 @@
+{
+  "name": "ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check",
+    "test": "vitest watch",
+    "test:run": "vitest run"
+  },
+  "devDependencies": {
+    "@keksworks/svelte-tiny-router": "^0.2.0",
+    "@sveltejs/vite-plugin-svelte": "^6.2.4",
+    "@tailwindcss/forms": "^0.5.11",
+    "@tailwindcss/vite": "^4.2.1",
+    "@testing-library/svelte": "^5.3.1",
+    "@tsconfig/svelte": "^5.0.4",
+    "jsdom": "^27.3.0",
+    "svelte": "^5.53.11",
+    "svelte-check": "^4.1.0",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.7.2",
+    "vite": "7.3.2",
+    "vitest": "^3.2.4"
+  },
+  "browserslist": [
+    "> 0.5%",
+    "not dead"
+  ]
+}
