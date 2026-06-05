@@ -1,4 +1,7 @@
 {
+  "general": {
+    "authenticate": "Authenticate"
+  },
   "title": "Klite/Svelte starter",
   "errors": {
     "technical": "Technical error, please try again"
