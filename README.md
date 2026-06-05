@@ -1,4 +1,12 @@
-# Klite starter project
+# Finance Dashboard
+
+A simple web app that streamlines the tracking of financial data.
+
+Features:
+* Integration with enablebanking.com for open banking (provide your own certificates)
+* Classification of transactions into categories using AI
+
+# Technical description
 
 **Don't forget to update this file with your own project description.**
 
