@@ -1,5 +1,6 @@
 package enablebanking
 
+import klite.base64UrlEncode
 import klite.http.get
 import klite.http.httpClient
 import java.io.File
@@ -18,13 +19,13 @@ class Jwt {
     val header = """{"typ":"JWT","alg":"RS256","kid":"${privateKeyFile.nameWithoutExtension}"}"""
     val payload = """{"iss":"enablebanking.com","aud":"api.enablebanking.com","iat":$iat,"exp":${iat + 3600}}"""
 
-    val unsignedToken = "${encode(header.toByteArray())}.${encode(payload.toByteArray())}"
+    val unsignedToken = "${header.toByteArray().base64UrlEncode()}.${payload.toByteArray().base64UrlEncode()}"
 
     val signature = Signature.getInstance("SHA256withRSA")
     signature.initSign(parsePrivateKey(privateKeyFile))
     signature.update(unsignedToken.toByteArray())
 
-    return "$unsignedToken.${encode(signature.sign())}"
+    return "$unsignedToken.${signature.sign().base64UrlEncode()}"
   }
 
   fun parsePrivateKey(file: File): RSAPrivateKey {
@@ -37,8 +38,6 @@ class Jwt {
     val keySpec = PKCS8EncodedKeySpec(Base64.getDecoder().decode(cleanPem))
     return KeyFactory.getInstance("RSA").generatePrivate(keySpec) as RSAPrivateKey
   }
-
-  private fun encode(data: ByteArray) = Base64.getUrlEncoder().withoutPadding().encodeToString(data)
 }
 
 suspend fun main() {
