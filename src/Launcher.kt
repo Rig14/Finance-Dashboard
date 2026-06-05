@@ -1,5 +1,6 @@
 import auth.AccessChecker
 import db.initDB
+import enablebanking.EnableBankingRoutes
 import klite.*
 import klite.annotations.annotated
 import klite.json.JsonBody
@@ -20,6 +21,8 @@ fun main() {
 
     context("/api") {
       useOnly<JsonBody>()
+
+      annotated<EnableBankingRoutes>()
 
       post("/js-error") { logger("js-error").error(rawBody) }
 
