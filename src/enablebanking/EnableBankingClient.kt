@@ -8,27 +8,25 @@ import java.time.Instant
 import java.util.*
 
 class EnableBankingClient {
-  private val http = JsonHttpClient(
-    "https://api.enablebanking.com",
+  private val http = JsonHttpClient("https://api.enablebanking.com",
     reqModifier = { setHeader("Authorization", "Bearer ${Jwt.createJwt()}")},
     http = httpClient(), json = JsonMapper())
 
-  suspend fun initiateAuth(): AuthorizationResponse {
+  suspend fun initiateAuth(): StartAuthorizationResponse {
     val validUntil = Instant.now().plusSeconds(10 * 24 * 60 * 60)
-    val body = AuthorizationRequest(
-      Access(validUntil),
-      Aspsp("LHV Pank", "EE"),
-      state = UUID.randomUUID(),
-      redirectUrl = URI("http://localhost:8000/session"),
-      psuType = "personal"
+    val body = StartAuthorizationRequest(
+      aspsp = ASPSP("LHV Pank", "EE"),
+      access = Access(validUntil = validUntil),
+      state = UUID.randomUUID().toString(),
+      redirectUrl = URI("http://localhost:8000/session")
     )
 
-    return http.post<AuthorizationResponse>("/auth", body)
+    return http.post<StartAuthorizationResponse>("/auth", body)
   }
 
-  suspend fun createSession(code: UUID): CreateSessionResponse {
-    val body = CreateSessionRequest(code)
+  suspend fun createSession(code: String): AuthorizeSessionResponse {
+    val body = AuthorizeSessionRequest(code)
 
-    return http.post<CreateSessionResponse>("/session", body)
+    return http.post<AuthorizeSessionResponse>("/sessions", body)
   }
 }

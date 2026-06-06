@@ -1,6 +1,18 @@
 <script lang="ts">
-  const urlParams = new URLSearchParams(window.location.search)
+  import {onMount} from 'svelte'
+  import api from 'src/api/api'
+  import type {AuthorizeSessionResponse} from 'src/api/types'
+
+  let res: AuthorizeSessionResponse
+
+  onMount(async () => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const code = urlParams.get('code')
+
+    if (code) {
+      res = await api.get<AuthorizeSessionResponse>(`session?code=${code}`)
+    }
+  })
 </script>
 
-code: {urlParams.get("code")}
-state: {urlParams.get("state")}
+{JSON.stringify(res)}
