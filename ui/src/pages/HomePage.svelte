@@ -4,7 +4,7 @@
   import type {AuthorizationResponse} from 'src/api/types'
 
   async function onclick() {
-    const res = await api.get<AuthorizationResponse>("enable-banking/auth")
+    const res = await api.get<AuthorizationResponse>("auth")
     window.location.href = res.url
   }
 </script>

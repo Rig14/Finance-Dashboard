@@ -19,10 +19,16 @@ class EnableBankingClient {
       Access(validUntil),
       Aspsp("LHV Pank", "EE"),
       state = UUID.randomUUID(),
-      redirectUrl = URI("https://rivis.ee"),
+      redirectUrl = URI("http://localhost:8000/session"),
       psuType = "personal"
     )
 
     return http.post<AuthorizationResponse>("/auth", body)
+  }
+
+  suspend fun createSession(code: UUID): CreateSessionResponse {
+    val body = CreateSessionRequest(code)
+
+    return http.post<CreateSessionResponse>("/session", body)
   }
 }
