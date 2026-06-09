@@ -1,9 +1,9 @@
 package db
 
-import users.Role.USER
+import klite.Email
 import users.User
 
 /** Immutable domain object samples for unit tests */
 object TestData {
-  val user = User("Test", "User", USER)
+  val user = User(Email("user@user.com"), Id(2))
 }

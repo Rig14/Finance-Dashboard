@@ -155,10 +155,8 @@ export enum TransactionStatus {BOOK = 'BOOK', CNCL = 'CNCL', HOLD = 'HOLD', OTHR
 export enum TransactionsFetchStrategy {DEFAULT = 'DEFAULT', LONGEST = 'LONGEST'}
 // class enablebanking.Usage
 export enum Usage {ORGA = 'ORGA', PRIV = 'PRIV'}
-// class users.Role
-export enum Role {ADMIN = 'ADMIN', USER = 'USER'}
 // class users.User
-export interface User {firstName: string; id: Id<User>; lastName: string; role: Role}
+export interface User {email: Email; id: Id<User>}
 
 // java.time.LocalDate
 export type LocalDate = `${number}-${number}-${number}`
@@ -166,3 +164,5 @@ export type LocalDate = `${number}-${number}-${number}`
 export type Instant = `${number}-${number}-${number}T${number}:${number}:${number}Z`
 // java.net.URI
 export type URI = `${string}://${string}`
+// klite.Email
+export type Email = `${string}@${string}`

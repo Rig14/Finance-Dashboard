@@ -2,14 +2,9 @@ package users
 
 import db.Entity
 import db.Id
-
-enum class Role {
-  ADMIN, USER
-}
+import klite.Email
 
 data class User(
-  val firstName: String,
-  val lastName: String,
-  val role: Role = Role.ADMIN,
+  val email: Email,
   override val id: Id<User> = Id()
 ): Entity<User>

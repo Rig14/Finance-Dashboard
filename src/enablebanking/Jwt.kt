@@ -11,7 +11,7 @@ import java.security.spec.PKCS8EncodedKeySpec
 class Jwt {
   companion object {
     fun createJwt(): String {
-      val privateKeyFile = File("./certs/sandbox").listFiles().first()
+      val privateKeyFile = File("./certs").listFiles().first()
       val iat = System.currentTimeMillis() / 1000
 
       val header = """{"typ":"JWT","alg":"RS256","kid":"${privateKeyFile.nameWithoutExtension}"}"""
