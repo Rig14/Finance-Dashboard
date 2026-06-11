@@ -3,11 +3,15 @@ package enablebanking
 import klite.http.httpClient
 import klite.json.JsonHttpClient
 import klite.json.JsonMapper
+import users.User
+import users.UserRepository
 import java.net.URI
 import java.time.Instant
 import java.util.*
 
-class EnableBankingClient {
+class EnableBankingClient(
+  private val userRepository: UserRepository,
+) {
   private val http = JsonHttpClient("https://api.enablebanking.com",
     reqModifier = { setHeader("Authorization", "Bearer ${Jwt.createJwt()}")},
     http = httpClient(), json = JsonMapper())
@@ -24,9 +28,12 @@ class EnableBankingClient {
     return http.post<StartAuthorizationResponse>("/auth", body)
   }
 
-  suspend fun createSession(code: String): AuthorizeSessionResponse {
-    val body = AuthorizeSessionRequest(code)
+  suspend fun createSession(code: String, user: User): AuthorizeSessionResponse {
+    val session = http.post<AuthorizeSessionResponse>("/sessions", AuthorizeSessionRequest(code))
 
-    return http.post<AuthorizeSessionResponse>("/sessions", body)
+    userRepository.update(user.copy(sessionId = session.sessionId))
+    return session
   }
+
+  suspend fun transactions(accountId: UUID) = http.get<HalTransactions>("/accounts/${accountId}/transactions")
 }

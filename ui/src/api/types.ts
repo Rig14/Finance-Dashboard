@@ -156,7 +156,7 @@ export enum TransactionsFetchStrategy {DEFAULT = 'DEFAULT', LONGEST = 'LONGEST'}
 // class enablebanking.Usage
 export enum Usage {ORGA = 'ORGA', PRIV = 'PRIV'}
 // class users.User
-export interface User {email: Email; id: Id<User>}
+export interface User {email: Email; id: Id<User>; sessionId?: string}
 
 // java.time.LocalDate
 export type LocalDate = `${number}-${number}-${number}`

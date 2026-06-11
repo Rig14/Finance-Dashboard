@@ -2,5 +2,6 @@
 create table users(
   ${id},
   email text unique,
-  secretHash text not null
+  secretHash text not null,
+  sessionId uuid
 );

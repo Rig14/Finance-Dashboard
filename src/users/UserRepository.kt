@@ -8,6 +8,7 @@ import klite.crypto.KeyGenerator
 import klite.jdbc.exec
 import klite.jdbc.insert
 import klite.jdbc.select
+import klite.jdbc.update
 import klite.mapOfNotNull
 import javax.sql.DataSource
 
@@ -19,6 +20,10 @@ class UserRepository(
 
   fun create(user: User, secret: Password) {
     db.insert(table, user.persister() + mapOfNotNull("secretHash" to hash(user.id, secret)))
+  }
+
+  fun update(user: User) {
+    if (db.update(table, user.persister(), User::id to user.id) == 0) throw NoSuchElementException("User not found: ${user.id}")
   }
 
   fun byCredentials(userId: Id<User>, secret: Password) = db.select(table, User::id to userId, "secretHash" to hash(userId, secret)) { mapper() }.firstOrNull()
