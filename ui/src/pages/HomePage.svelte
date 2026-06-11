@@ -1,10 +1,10 @@
 <script lang="ts">
   import {t} from 'i18n'
   import api from 'src/api/api'
-  import type {AuthorizationResponse} from 'src/api/types'
+  import type {StartAuthorizationResponse} from 'src/api/types'
 
   async function onclick() {
-    const res = await api.get<AuthorizationResponse>("auth")
+    const res = await api.get<StartAuthorizationResponse>("auth")
     window.location.href = res.url
   }
 </script>
