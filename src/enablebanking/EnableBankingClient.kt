@@ -4,7 +4,7 @@ import klite.http.httpClient
 import klite.json.JsonHttpClient
 import klite.json.JsonMapper
 import users.Jwt
-import users.Jwt.Companion.JwtType.EnableBanking
+import users.Payload
 import users.User
 import users.UserRepository
 import java.net.URI
@@ -15,7 +15,7 @@ class EnableBankingClient(
   private val userRepository: UserRepository,
 ) {
   private val http = JsonHttpClient("https://api.enablebanking.com",
-    reqModifier = { setHeader("Authorization", "Bearer ${Jwt.create(EnableBanking)}")},
+    reqModifier = { setHeader("Authorization", "Bearer ${Jwt.create(Payload("enablebanking.com", "api.enablebanking.com"))}")},
     http = httpClient(), json = JsonMapper())
 
   suspend fun initiateAuth(): StartAuthorizationResponse {

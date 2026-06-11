@@ -1,8 +1,9 @@
 package users
 
+import db.Id
 import klite.base64Decode
 import klite.base64UrlEncode
-import users.Jwt.Companion.JwtType.EnableBanking
+import klite.json.JsonMapper
 import java.io.File
 import java.security.KeyFactory
 import java.security.PrivateKey
@@ -13,28 +14,23 @@ import java.security.spec.PKCS8EncodedKeySpec
 import java.security.spec.RSAPublicKeySpec
 import java.util.*
 
+data class Payload(
+  val iss: String? = null,
+  val aud: String? = null,
+  val userId: Id<User>? = null,
+  val iat: Long = System.currentTimeMillis() / 1000,
+  val exp: Long = System.currentTimeMillis() / 1000 + 3600,
+)
+
 class Jwt {
   companion object {
     private val privateKeyFile = File("./certs").listFiles().firstOrNull() ?: throw IllegalStateException("could not find ./certs")
     private val publicKey = getPublicKey()
     private val privateKey = getPrivateKey()
 
-    enum class JwtType {
-      EnableBanking,
-      App
-    }
-
-    fun create(type: JwtType): String {
-      val iat = System.currentTimeMillis() / 1000
-      val claims = if (type == EnableBanking) """"iss":"enablebanking.com","aud":"api.enablebanking.com",""" else ""
-      val payload = """{$claims"iat":$iat,"exp":${iat + 3600}}"""
-      return sign(payload, type)
-    }
-
-    private fun sign(payload: String, type: JwtType): String {
-      val keyId = if (type == EnableBanking) ""","kid":"${privateKeyFile.nameWithoutExtension}"""" else ""
-      val header = """{"typ":"JWT","alg":"RS256"$keyId}"""
-      val unsignedToken = "${header.toByteArray().base64UrlEncode()}.${payload.toByteArray().base64UrlEncode()}"
+    fun create(payload: Payload): String {
+      val header = """{"typ":"JWT","alg":"RS256","kid":"${privateKeyFile.nameWithoutExtension}"}"""
+      val unsignedToken = "${header.toByteArray().base64UrlEncode()}.${JsonMapper().render(payload).toByteArray().base64UrlEncode()}"
 
       val signature = Signature.getInstance("SHA256withRSA")
       signature.initSign(privateKey)

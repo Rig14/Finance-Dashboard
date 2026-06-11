@@ -7,6 +7,6 @@ import java.util.*
 
 data class User(
   val email: Email,
-  val sessionId: UUID?,
+  val sessionId: UUID? = null,
   override val id: Id<User> = Id()
 ): Entity<User>

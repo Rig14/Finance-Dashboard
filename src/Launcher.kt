@@ -4,6 +4,7 @@ import enablebanking.EnableBankingRoutes
 import klite.*
 import klite.annotations.annotated
 import klite.json.JsonBody
+import users.UserRoutes
 import java.nio.file.Path
 import kotlin.reflect.full.primaryConstructor
 import kotlin.time.Duration.Companion.days
@@ -23,6 +24,7 @@ fun main() {
       useOnly<JsonBody>()
 
       annotated<EnableBankingRoutes>()
+      annotated<UserRoutes>()
 
       post("/js-error") { logger("js-error").error(rawBody) }
 

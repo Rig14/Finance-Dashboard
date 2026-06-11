@@ -18,9 +18,7 @@ class UserRepository(
 ): CrudRepository<User>(db, "users") {
   fun setAppUser(user: User) { db.exec("call set_app_user(?)", sequenceOf(user.id)) }
 
-  fun create(user: User, secret: Password) {
-    db.insert(table, user.persister() + mapOfNotNull("secretHash" to hash(user.id, secret)))
-  }
+  fun create(user: User, secret: Password) = db.insert(table, user.persister() + mapOfNotNull("secretHash" to hash(user.id, secret)))
 
   fun update(user: User) {
     if (db.update(table, user.persister(), User::id to user.id) == 0) throw NoSuchElementException("User not found: ${user.id}")
