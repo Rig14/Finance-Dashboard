@@ -155,6 +155,8 @@ export enum TransactionStatus {BOOK = 'BOOK', CNCL = 'CNCL', HOLD = 'HOLD', OTHR
 export enum TransactionsFetchStrategy {DEFAULT = 'DEFAULT', LONGEST = 'LONGEST'}
 // class enablebanking.Usage
 export enum Usage {ORGA = 'ORGA', PRIV = 'PRIV'}
+// class users.Jwt$Companion$JwtType
+export enum JwtCompanionJwtType {EnableBanking = 'EnableBanking', App = 'App'}
 // class users.User
 export interface User {email: Email; id: Id<User>; sessionId?: string}
 
