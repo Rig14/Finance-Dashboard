@@ -8,7 +8,7 @@ import java.util.*
 
 data class ASPSP(
   val name: String,
-  val country: String
+  val country: CountryCode
 )
 
 data class ASPSPData(

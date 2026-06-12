@@ -18,10 +18,10 @@ class EnableBankingClient(
     reqModifier = { setHeader("Authorization", "Bearer ${Jwt.create(Payload("enablebanking.com", "api.enablebanking.com"))}")},
     http = httpClient(), json = JsonMapper())
 
-  suspend fun initiateAuth(): StartAuthorizationResponse {
+  suspend fun initiateAuth(bankName: String, country: CountryCode): StartAuthorizationResponse {
     val validUntil = Instant.now().plusSeconds(10 * 24 * 60 * 60)
     val body = StartAuthorizationRequest(
-      aspsp = ASPSP("LHV Pank", "EE"),
+      aspsp = ASPSP(bankName, country),
       access = Access(validUntil = validUntil),
       state = UUID.randomUUID().toString(),
       redirectUrl = URI("http://localhost:8000/session")
@@ -39,5 +39,5 @@ class EnableBankingClient(
 
   suspend fun transactions(accountId: UUID) = http.get<HalTransactions>("/accounts/${accountId}/transactions")
 
-  suspend fun listBanks(countryCode: CountryCode) = http.get<GetAspspsResponse>("/aspsps?country=$countryCode")
+  suspend fun listBanks(country: CountryCode) = http.get<GetAspspsResponse>("/aspsps?country=$country")
 }
