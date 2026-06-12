@@ -2,7 +2,7 @@ import {writable} from 'svelte/store'
 import type {User} from 'src/api/types'
 import api from 'src/api/api'
 
-export const user = writable<User>()
+export const user = writable<User | undefined>()
 
 export function initSession(auth: User) {
   user.set(auth)

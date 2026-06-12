@@ -2,6 +2,8 @@
   import {t} from 'i18n'
   import api from 'src/api/api'
   import {navigate} from '@keksworks/svelte-tiny-router'
+  import {initSession} from 'src/stores/auth'
+  import type {User} from 'src/api/types'
 
   let email: string = ''
   let password: string = ''
@@ -9,11 +11,17 @@
 
   async function login() {
     await api.post('users/login', {email, password})
+
+    const user = await api.get<User>('users/user')
+    initSession(user)
     navigate('/dashboard')
   }
 
   async function signup() {
     await api.post('users/signup', {email, password})
+
+    const user = await api.get<User>('users/user')
+    initSession(user)
     navigate('/dashboard')
   }
 </script>

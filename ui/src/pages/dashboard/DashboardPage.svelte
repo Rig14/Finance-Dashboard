@@ -1,13 +1,10 @@
 <script lang="ts">
-  import {onMount} from 'svelte'
-  import api from 'src/api/api'
-  import type {User} from 'src/api/types'
-
-  let user: User
-
-  onMount(async () => {
-    user = await api.get('users/user')
-  })
+  import {t} from 'i18n'
+  import {user} from 'src/stores/auth'
 </script>
 
-{JSON.stringify(user)}
+{#if !$user?.sessionId}
+  {t.dashboard.bankNotConnected}
+  <button>{t.dashboard.authorizeBank}</button>
+{/if}
+
