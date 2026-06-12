@@ -8,7 +8,7 @@ import java.util.*
 
 data class ASPSP(
   val name: String,
-  val country: String
+  val country: CountryCode
 )
 
 data class ASPSPData(
@@ -303,7 +303,7 @@ data class GetPaymentTransactionResponse(
 
 data class GetSessionResponse(
   val status: SessionStatus,
-  val accounts: List<String>,
+  val accounts: List<UUID>,
   @JsonProperty("accounts_data") val accountsData: List<SessionAccount>,
   val aspsp: ASPSP,
   @JsonProperty("psu_type") val psuType: PSUType,
@@ -562,10 +562,15 @@ data class Transaction(
   @JsonProperty("transaction_id") val transactionId: String? = null
 )
 
-enum class TransactionStatus {
-  BOOK, CNCL, HOLD, OTHR, PDNG, RJCT, SCHD
+enum class TransactionStatus(val description: String) {
+  BOOK("Accounted transaction (ISO20022 Closing Booked)"),
+  CNCL("Cancelled transaction"),
+  HOLD("Account hold"),
+  OTHR("Transaction with unknown status or not fitting the other options"),
+  PDNG("Instant Balance Transaction (ISO20022 Expected)"),
+  RJCT("Rejected transaction"),
+  SCHD("Scheduled transaction")
 }
-
 enum class TransactionsFetchStrategy {
   @JsonProperty("default") DEFAULT,
   @JsonProperty("longest") LONGEST

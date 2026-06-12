@@ -3,12 +3,14 @@ package enablebanking
 import klite.http.httpClient
 import klite.json.JsonHttpClient
 import klite.json.JsonMapper
+import klite.urlEncodeParams
 import users.Jwt
 import users.Payload
 import users.User
 import users.UserRepository
 import java.net.URI
 import java.time.Instant
+import java.time.LocalDate
 import java.util.*
 
 class EnableBankingClient(
@@ -18,10 +20,10 @@ class EnableBankingClient(
     reqModifier = { setHeader("Authorization", "Bearer ${Jwt.create(Payload("enablebanking.com", "api.enablebanking.com"))}")},
     http = httpClient(), json = JsonMapper())
 
-  suspend fun initiateAuth(): StartAuthorizationResponse {
+  suspend fun initiateAuth(bankName: String, country: CountryCode): StartAuthorizationResponse {
     val validUntil = Instant.now().plusSeconds(10 * 24 * 60 * 60)
     val body = StartAuthorizationRequest(
-      aspsp = ASPSP("LHV Pank", "EE"),
+      aspsp = ASPSP(bankName, country),
       access = Access(validUntil = validUntil),
       state = UUID.randomUUID().toString(),
       redirectUrl = URI("http://localhost:8000/session")
@@ -37,7 +39,21 @@ class EnableBankingClient(
     return session
   }
 
-  suspend fun transactions(accountId: UUID) = http.get<HalTransactions>("/accounts/${accountId}/transactions")
+  suspend fun sessionsData(sessionId: UUID) = http.get<GetSessionResponse>("/sessions/$sessionId")
+  suspend fun transactions(accountId: UUID, dateRange: ClosedRange<LocalDate> = LocalDate.now().minusMonths(1)..LocalDate.now()): List<Transaction> {
+    val result = mutableListOf<Transaction>()
+    var key: String? = ""
 
-  suspend fun listBanks(countryCode: CountryCode) = http.get<GetAspspsResponse>("/aspsps?country=$countryCode")
+    while (key != null) {
+      val query = urlEncodeParams(mapOf("continuation_key" to key, "date_from" to dateRange.start, "date_to" to dateRange.endInclusive))
+      val response = http.get<HalTransactions>("/accounts/$accountId/transactions?$query")
+
+      result.addAll(response.transactions)
+      key = response.continuationKey
+    }
+
+    return result
+  }
+
+  suspend fun listBanks(country: CountryCode) = http.get<GetAspspsResponse>("/aspsps?country=$country")
 }

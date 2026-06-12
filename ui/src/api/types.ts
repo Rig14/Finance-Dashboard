@@ -2,7 +2,7 @@ export type Id<T extends Entity<T>> = string & {_of?: T}
 export type Entity<T extends Entity<T>> = {id: Id<T>}
 
 // class enablebanking.ASPSP
-export interface ASPSP {country: string; name: string}
+export interface ASPSP {country: CountryCode; name: string}
 // class enablebanking.ASPSPData
 export interface ASPSPData {auth_methods: Array<AuthMethod>; beta: boolean; bic?: string; country: string; group?: ASPSPGroup; logo: URI; maximum_consent_validity: number; name: string; payments?: Array<ResponsePaymentType>; psu_types: Array<PSUType>; required_psu_headers?: Array<string>; sandbox?: SandboxInfo}
 // class enablebanking.ASPSPGroup
