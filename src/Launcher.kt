@@ -21,13 +21,14 @@ fun main() {
     assets("/", AssetsHandler(Path.of("ui/public"), useIndexForUnknownPaths = true))
 
     context("/api") {
+      post("/js-error") { logger("js-error").error(rawBody) }
+
       useOnly<JsonBody>()
       before<AccessChecker>()
 
       annotated<EnableBankingRoutes>()
       annotated<UserRoutes>()
 
-      post("/js-error") { logger("js-error").error(rawBody) }
     }
     start()
   }
