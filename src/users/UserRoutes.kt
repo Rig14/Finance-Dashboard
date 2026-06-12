@@ -1,6 +1,7 @@
 package users
 
 import auth.Access
+import auth.Public
 import klite.Email
 import klite.HttpExchange
 import klite.NotFoundException
@@ -13,6 +14,7 @@ import kotlin.time.Duration.Companion.days
 class UserRoutes(
   private val userRepository: UserRepository
 ) {
+  @Public
   @POST("/signup")
   fun signup(@BodyParam email: Email, @BodyParam password: Password, e: HttpExchange) {
     val user = User(email)
@@ -21,6 +23,7 @@ class UserRoutes(
     e.cookie("jwt", token, now().plusSeconds(10.days.inWholeSeconds))
   }
 
+  @Public
   @POST("/login")
   fun login(@BodyParam email: Email, @BodyParam password: Password, e: HttpExchange) {
     val user = userRepository.byCredentials(email, password) ?: throw NotFoundException("User not found")
