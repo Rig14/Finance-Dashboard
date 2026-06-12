@@ -12,7 +12,6 @@
     "technical": "Technical error, please try again"
   },
   "dashboard": {
-    "bankNotConnected": "You have not connected any banks to this account. Please authorize access to a bank.",
-    "authorizeBank": "Authorize Bank"
+    "bankNotConnected": "You have not connected any banks to this account. Choose a bank to authorize for access."
   }
 }

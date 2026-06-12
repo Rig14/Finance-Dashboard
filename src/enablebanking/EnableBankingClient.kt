@@ -38,4 +38,6 @@ class EnableBankingClient(
   }
 
   suspend fun transactions(accountId: UUID) = http.get<HalTransactions>("/accounts/${accountId}/transactions")
+
+  suspend fun listBanks(countryCode: CountryCode) = http.get<GetAspspsResponse>("/aspsps?country=$countryCode")
 }

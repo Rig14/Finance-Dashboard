@@ -43,6 +43,8 @@ export enum ChargeBearerCode {CRED = 'CRED', DEBT = 'DEBT', SHAR = 'SHAR', SLEV 
 export interface ClearingSystemMemberIdentification {clearing_system_id?: string; member_id?: string}
 // class enablebanking.ContactDetails
 export interface ContactDetails {email_address?: string; phone_number?: string}
+// class enablebanking.CountryCode
+export enum CountryCode {AT = 'AT', BE = 'BE', BG = 'BG', CY = 'CY', CZ = 'CZ', DE = 'DE', DK = 'DK', EE = 'EE', EL = 'EL', ES = 'ES', FI = 'FI', FR = 'FR', HR = 'HR', HU = 'HU', IE = 'IE', IT = 'IT', LT = 'LT', LU = 'LU', LV = 'LV', MT = 'MT', NL = 'NL', PL = 'PL', PT = 'PT', RO = 'RO', SE = 'SE', SI = 'SI', SK = 'SK'}
 // class enablebanking.CreatePaymentRequest
 export interface CreatePaymentRequest {aspsp: ASPSP; auth_method?: string; credentials?: any; defer_submission?: boolean; language?: string; payment_request: PaymentRequestResource; payment_type: PaymentType; psu_id?: string; psu_type: PSUType; redirect_url: URI; state: string; webhook_url?: URI}
 // class enablebanking.CreatePaymentResponse
