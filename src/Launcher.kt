@@ -22,13 +22,12 @@ fun main() {
 
     context("/api") {
       useOnly<JsonBody>()
+      before<AccessChecker>()
 
       annotated<EnableBankingRoutes>()
       annotated<UserRoutes>()
 
       post("/js-error") { logger("js-error").error(rawBody) }
-
-      before<AccessChecker>()
     }
     start()
   }

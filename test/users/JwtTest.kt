@@ -35,5 +35,21 @@ class JwtTest {
     expect(Jwt.validate("")).toEqual(false)
   }
 
+  @Test
+  fun `parses token payloads correctly`() {
+    val appPayload = Payload(userId = user.id)
+    val bankPayload = Payload("enablebanking.com", "api.enablebanking.com")
+
+    val parsedApp = Jwt.parse(Jwt.create(appPayload))
+    val parsedBank = Jwt.parse(Jwt.create(bankPayload))
+
+    expect(parsedApp.userId).toEqual(appPayload.userId)
+    expect(parsedApp.iss).toEqual(null)
+
+    expect(parsedBank.iss).toEqual(bankPayload.iss)
+    expect(parsedBank.aud).toEqual(bankPayload.aud)
+    expect(parsedBank.userId).toEqual(null)
+  }
+
   private fun getDecodedPayload(jwt: String) = String(jwt.split(".")[1].base64Decode())
 }

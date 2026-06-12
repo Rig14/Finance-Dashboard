@@ -8,12 +8,12 @@
 
 
   async function login() {
-    const res = await api.post('users/login', {email, password})
+    await api.post('users/login', {email, password})
     navigate('/dashboard')
   }
 
   async function signup() {
-    const res = await api.post('users/signup', {email, password})
+    await api.post('users/signup', {email, password})
     navigate('/dashboard')
   }
 </script>

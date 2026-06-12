@@ -1,9 +1,12 @@
 package users
 
 import db.Id
+import klite.BadRequestException
 import klite.base64Decode
+import klite.base64UrlDecode
 import klite.base64UrlEncode
 import klite.json.JsonMapper
+import klite.json.parse
 import java.io.File
 import java.security.KeyFactory
 import java.security.PrivateKey
@@ -27,10 +30,11 @@ class Jwt {
     private val privateKeyFile = File("./certs").listFiles().firstOrNull() ?: throw IllegalStateException("could not find ./certs")
     private val publicKey = getPublicKey()
     private val privateKey = getPrivateKey()
+    private val jsonMapper = JsonMapper()
 
     fun create(payload: Payload): String {
       val header = """{"typ":"JWT","alg":"RS256","kid":"${privateKeyFile.nameWithoutExtension}"}"""
-      val unsignedToken = "${header.toByteArray().base64UrlEncode()}.${JsonMapper().render(payload).toByteArray().base64UrlEncode()}"
+      val unsignedToken = "${header.toByteArray().base64UrlEncode()}.${jsonMapper.render(payload).toByteArray().base64UrlEncode()}"
 
       val signature = Signature.getInstance("SHA256withRSA")
       signature.initSign(privateKey)
@@ -48,6 +52,14 @@ class Jwt {
       signature.update("${parts[0]}.${parts[1]}".toByteArray())
 
       return signature.verify(Base64.getUrlDecoder().decode(parts[2]))
+    }
+
+    fun parse(jwt: String): Payload {
+      val encodedPayload = jwt.split(".").takeIf { it.size >= 2 }?.let { it[1] }
+      if (encodedPayload == null) throw BadRequestException("JWT format is not supported")
+
+      val payload = jsonMapper.parse<Payload>(encodedPayload.base64UrlDecode().decodeToString())
+      return payload
     }
 
     private fun getPrivateKey(): PrivateKey {

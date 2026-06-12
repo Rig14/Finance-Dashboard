@@ -4,6 +4,7 @@
   import {Route, Router} from '@keksworks/svelte-tiny-router'
   import HomePage from 'src/pages/HomePage.svelte'
   import SessionPage from 'src/pages/SessionPage.svelte'
+  import DashboardPage from 'src/pages/dashboard/DashboardPage.svelte'
 </script>
 
 <svelte:head>
@@ -14,5 +15,6 @@
 
 <Router>
   <Route path="/" component={HomePage}/>
+  <Route path="/dashboard" component={DashboardPage}/>
   <Route path="/session" component={SessionPage}/>
 </Router>
