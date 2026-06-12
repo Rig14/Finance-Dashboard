@@ -1,6 +1,11 @@
 {
   "general": {
-    "authenticate": "Authenticate"
+    "authenticate": "Authenticate",
+    "email": "Email",
+    "password": "Password",
+    "submit": "Submit",
+    "login": "Login",
+    "signup": "Signup"
   },
   "title": "Klite/Svelte starter",
   "errors": {

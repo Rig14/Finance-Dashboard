@@ -2,6 +2,7 @@ package users
 
 import db.CrudRepository
 import db.Id
+import klite.Email
 import klite.Password
 import klite.base64Encode
 import klite.crypto.KeyGenerator
@@ -25,6 +26,9 @@ class UserRepository(
   }
 
   fun byCredentials(userId: Id<User>, secret: Password) = db.select(table, User::id to userId, "secretHash" to hash(userId, secret)) { mapper() }.firstOrNull()
+  fun byCredentials(email: Email, secret: Password) = db.select(table, User::email to email) {
+    mapper().takeIf { getString("secretHash") == hash(it.id, secret) }
+  }.firstOrNull()
 
   internal fun hash(id: Id<User>, secret: Password) = keyGenerator.hash(secret.value, id.toString()).base64Encode()
 }
