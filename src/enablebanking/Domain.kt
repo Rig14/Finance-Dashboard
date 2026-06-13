@@ -319,7 +319,7 @@ data class HalBalances(
 )
 
 data class HalTransactions(
-  val transactions: List<Transaction>,
+  val transactions: List<EnableBankingTransaction>,
   @JsonProperty("continuation_key") val continuationKey: String? = null
 )
 
@@ -535,7 +535,7 @@ data class SuccessResponse(
   val message: String? = null
 )
 
-data class Transaction(
+data class EnableBankingTransaction(
   @JsonProperty("entry_reference") val entryReference: String? = null,
   @JsonProperty("merchant_category_code") val merchantCategoryCode: String? = null,
   @JsonProperty("transaction_amount") val transactionAmount: AmountType,

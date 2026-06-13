@@ -40,8 +40,8 @@ class EnableBankingClient(
   }
 
   suspend fun sessionsData(sessionId: UUID) = http.get<GetSessionResponse>("/sessions/$sessionId")
-  suspend fun transactions(accountId: UUID, dateRange: ClosedRange<LocalDate> = LocalDate.now().minusMonths(1)..LocalDate.now()): List<Transaction> {
-    val result = mutableListOf<Transaction>()
+  suspend fun transactions(accountId: UUID, dateRange: ClosedRange<LocalDate> = LocalDate.now().minusMonths(1)..LocalDate.now()): List<EnableBankingTransaction> {
+    val result = mutableListOf<EnableBankingTransaction>()
     var key: String? = ""
 
     while (key != null) {

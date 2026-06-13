@@ -29,5 +29,7 @@
       {/each}
     </ul>
   {/await}
+{:else}
+  <button onclick={() => api.get("transactions/refresh")}>button</button>
 {/if}
 

@@ -5,6 +5,17 @@
   import HomePage from 'src/pages/HomePage.svelte'
   import SessionPage from 'src/pages/SessionPage.svelte'
   import DashboardPage from 'src/pages/dashboard/DashboardPage.svelte'
+  import {initSession, user} from './stores/auth'
+  import api from 'src/api/api'
+  import type {User} from 'src/api/types'
+  import {onMount} from 'svelte'
+
+  onMount(async () =>  {
+    if (!$user) {
+      const user = await api.get<User>('users/user')
+      initSession(user)
+    }
+  })
 </script>
 
 <svelte:head>

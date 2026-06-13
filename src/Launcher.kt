@@ -4,6 +4,7 @@ import enablebanking.EnableBankingRoutes
 import klite.*
 import klite.annotations.annotated
 import klite.json.JsonBody
+import transactions.TransactionsRoutes
 import users.UserRoutes
 import java.nio.file.Path
 import kotlin.reflect.full.primaryConstructor
@@ -28,7 +29,7 @@ fun main() {
 
       annotated<EnableBankingRoutes>()
       annotated<UserRoutes>()
-
+      annotated<TransactionsRoutes>()
     }
     start()
   }

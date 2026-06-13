@@ -57,6 +57,8 @@ export enum CreditDebitIndicator {CRDT = 'CRDT', DBIT = 'DBIT'}
 export interface CreditTransferTransaction {beneficiary: Beneficiary; end_date?: LocalDate; execution_rule?: ExecutionRule; frequency?: FrequencyCode; instructed_amount: AmountType; payment_id?: PaymentIdentification; reference_number?: string; regulatory_reporting?: Array<RegulatoryReporting>; remittance_information?: Array<string>; requested_execution_date?: LocalDate; ultimate_creditor?: PartyIdentification; ultimate_debtor?: PartyIdentification}
 // class enablebanking.CreditTransferTransactionDetails
 export interface CreditTransferTransactionDetails {beneficiary: Beneficiary; end_date?: LocalDate; execution_rule?: ExecutionRule; frequency?: FrequencyCode; instructed_amount: AmountType; payment_id?: PaymentIdentification; reference_number?: string; regulatory_reporting?: Array<RegulatoryReporting>; remittance_information?: Array<string>; requested_execution_date?: LocalDate; transaction_id?: string; transaction_status?: PaymentStatus; ultimate_creditor?: PartyIdentification; ultimate_debtor?: PartyIdentification}
+// class enablebanking.EnableBankingTransaction
+export interface EnableBankingTransaction {balance_after_transaction?: AmountType; bank_transaction_code?: BankTransactionCode; booking_date?: LocalDate; credit_debit_indicator: CreditDebitIndicator; creditor?: PartyIdentification; creditor_account?: AccountIdentification; creditor_account_additional_identification?: Array<GenericIdentification>; creditor_agent?: FinancialInstitutionIdentification; debtor?: PartyIdentification; debtor_account?: AccountIdentification; debtor_account_additional_identification?: Array<GenericIdentification>; debtor_agent?: FinancialInstitutionIdentification; entry_reference?: string; exchange_rate?: ExchangeRate; merchant_category_code?: string; note?: string; reference_number?: string; reference_number_schema?: ReferenceNumberScheme; remittance_information?: Array<string>; status: TransactionStatus; transaction_amount: AmountType; transaction_date?: LocalDate; transaction_id?: string; value_date?: LocalDate}
 // class enablebanking.Environment
 export enum Environment {PRODUCTION = 'PRODUCTION', SANDBOX = 'SANDBOX'}
 // class enablebanking.ErrorCode
@@ -86,7 +88,7 @@ export interface GetSessionResponse {access: Access; accounts: Array<string>; ac
 // class enablebanking.HalBalances
 export interface HalBalances {balances: Array<BalanceResource>}
 // class enablebanking.HalTransactions
-export interface HalTransactions {continuation_key?: string; transactions: Array<Transaction>}
+export interface HalTransactions {continuation_key?: string; transactions: Array<EnableBankingTransaction>}
 // class enablebanking.PSUType
 export enum PSUType {BUSINESS = 'BUSINESS', PERSONAL = 'PERSONAL'}
 // class enablebanking.PartyIdentification
@@ -149,14 +151,14 @@ export interface StatusReasonInformation {status_reason_code: string; status_rea
 export interface SubmitPaymentResponse {final_status: boolean; payment_id: string; status: PaymentStatus; status_reason_information?: StatusReasonInformation}
 // class enablebanking.SuccessResponse
 export interface SuccessResponse {message?: string}
-// class enablebanking.Transaction
-export interface Transaction {balance_after_transaction?: AmountType; bank_transaction_code?: BankTransactionCode; booking_date?: LocalDate; credit_debit_indicator: CreditDebitIndicator; creditor?: PartyIdentification; creditor_account?: AccountIdentification; creditor_account_additional_identification?: Array<GenericIdentification>; creditor_agent?: FinancialInstitutionIdentification; debtor?: PartyIdentification; debtor_account?: AccountIdentification; debtor_account_additional_identification?: Array<GenericIdentification>; debtor_agent?: FinancialInstitutionIdentification; entry_reference?: string; exchange_rate?: ExchangeRate; merchant_category_code?: string; note?: string; reference_number?: string; reference_number_schema?: ReferenceNumberScheme; remittance_information?: Array<string>; status: TransactionStatus; transaction_amount: AmountType; transaction_date?: LocalDate; transaction_id?: string; value_date?: LocalDate}
 // class enablebanking.TransactionStatus
 export enum TransactionStatus {BOOK = 'BOOK', CNCL = 'CNCL', HOLD = 'HOLD', OTHR = 'OTHR', PDNG = 'PDNG', RJCT = 'RJCT', SCHD = 'SCHD'}
 // class enablebanking.TransactionsFetchStrategy
 export enum TransactionsFetchStrategy {DEFAULT = 'DEFAULT', LONGEST = 'LONGEST'}
 // class enablebanking.Usage
 export enum Usage {ORGA = 'ORGA', PRIV = 'PRIV'}
+// class transactions.Transaction
+export interface Transaction {amount: number; categoryCode?: string; creditDebitIndicator: CreditDebitIndicator; creditor: string; date: LocalDate; id: Id<Transaction>; note?: string; userId: Id<User>}
 // class users.Payload
 export interface Payload {aud?: string; exp: number; iat: number; iss?: string; userId?: Id<User>}
 // class users.User

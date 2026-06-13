@@ -1,6 +1,6 @@
 package enablebanking
 
-import db.TestData.transaction
+import db.TestData.enableBankingTransaction
 import enablebanking.TransactionStatus.SCHD
 import io.mockk.coEvery
 import io.mockk.mockk
@@ -24,8 +24,8 @@ class EnableBankingClientTest {
     val accountId = randomUUID()
     val from = now().minusMonths(1)
     val to = now()
-    val tx1 = transaction
-    val tx2 = transaction.copy(status = SCHD)
+    val tx1 = enableBankingTransaction
+    val tx2 = enableBankingTransaction.copy(status = SCHD)
 
     val page1 = HalTransactions(transactions = listOf(tx1), continuationKey = "next_page_key")
     val page2 = HalTransactions(transactions = listOf(tx2), continuationKey = null)
