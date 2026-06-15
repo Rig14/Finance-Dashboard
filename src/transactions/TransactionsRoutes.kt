@@ -41,7 +41,7 @@ class TransactionsRoutes(
             accountId = accountId,
             userId = user.id,
             categoryCode = it.merchantCategoryCode,
-            note = it.note + it.remittanceInformation,
+            note = "note: ${it.note}\n\nremittance information: ${it.remittanceInformation?.joinToString()}",
           ))
           importedTransactionCount++
         } catch (e: Exception) {
