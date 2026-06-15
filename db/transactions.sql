@@ -2,14 +2,17 @@
 create table transactions(
   ${id},
   amount decimal not null,
-  creditor text not null,
+  accountId uuid not null,
+  userId bigint not null,
+  hashCode int not null,
   creditDebitIndicator text not null check (creditDebitIndicator in ('CRDT', 'DBIT')),
-  date date not null,
+  date date,
+  creditor text,
   categoryCode text,
   note text,
-  userId bigint not null
+  foreign key (userId) references users(id) on delete cascade,
+  constraint uq_transactions_composite unique (accountId, userId, hashCode)
 );
 
---changeset transactions.userId
-alter table transactions add foreign key (userId) references users(id) on delete cascade;
+
 

@@ -42,15 +42,15 @@ class EnableBankingClient(
   suspend fun sessionsData(sessionId: UUID) = http.get<GetSessionResponse>("/sessions/$sessionId")
   suspend fun transactions(accountId: UUID, dateRange: ClosedRange<LocalDate> = LocalDate.now().minusMonths(1)..LocalDate.now()): List<EnableBankingTransaction> {
     val result = mutableListOf<EnableBankingTransaction>()
-    var key: String? = ""
+    var key: String? = null
 
-    while (key != null) {
+    do {
       val query = urlEncodeParams(mapOf("continuation_key" to key, "date_from" to dateRange.start, "date_to" to dateRange.endInclusive))
       val response = http.get<HalTransactions>("/accounts/$accountId/transactions?$query")
 
       result.addAll(response.transactions)
       key = response.continuationKey
-    }
+    } while (key != null)
 
     return result
   }

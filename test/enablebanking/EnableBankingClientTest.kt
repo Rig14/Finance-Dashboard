@@ -30,7 +30,7 @@ class EnableBankingClientTest {
     val page1 = HalTransactions(transactions = listOf(tx1), continuationKey = "next_page_key")
     val page2 = HalTransactions(transactions = listOf(tx2), continuationKey = null)
 
-    coEvery { jsonHttpClient.get<HalTransactions>("/accounts/$accountId/transactions?continuation_key=&date_from=$from&date_to=$to") } returns page1
+    coEvery { jsonHttpClient.get<HalTransactions>("/accounts/$accountId/transactions?date_from=$from&date_to=$to") } returns page1
     coEvery { jsonHttpClient.get<HalTransactions>("/accounts/$accountId/transactions?continuation_key=next_page_key&date_from=$from&date_to=$to") } returns page2
 
     val result = runBlocking { client.transactions(accountId, from..to) }

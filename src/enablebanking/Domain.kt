@@ -1,5 +1,6 @@
 package enablebanking
 
+import klite.StringValue
 import klite.json.JsonProperty
 import java.net.URI
 import java.time.Instant
@@ -535,9 +536,11 @@ data class SuccessResponse(
   val message: String? = null
 )
 
+class ISO20022(code: String): StringValue(code)
+
 data class EnableBankingTransaction(
   @JsonProperty("entry_reference") val entryReference: String? = null,
-  @JsonProperty("merchant_category_code") val merchantCategoryCode: String? = null,
+  @JsonProperty("merchant_category_code") val merchantCategoryCode: ISO20022? = null,
   @JsonProperty("transaction_amount") val transactionAmount: AmountType,
   val creditor: PartyIdentification? = null,
   @JsonProperty("creditor_account") val creditorAccount: AccountIdentification? = null,

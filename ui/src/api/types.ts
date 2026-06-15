@@ -158,7 +158,7 @@ export enum TransactionsFetchStrategy {DEFAULT = 'DEFAULT', LONGEST = 'LONGEST'}
 // class enablebanking.Usage
 export enum Usage {ORGA = 'ORGA', PRIV = 'PRIV'}
 // class transactions.Transaction
-export interface Transaction {amount: number; categoryCode?: string; creditDebitIndicator: CreditDebitIndicator; creditor: string; date: LocalDate; id: Id<Transaction>; note?: string; userId: Id<User>}
+export interface Transaction {accountId: string; amount: number; categoryCode?: string; creditDebitIndicator: CreditDebitIndicator; creditor?: string; date?: LocalDate; hashCode: number; id: Id<Transaction>; note?: string; userId: Id<User>}
 // class users.Payload
 export interface Payload {aud?: string; exp: number; iat: number; iss?: string; userId?: Id<User>}
 // class users.User

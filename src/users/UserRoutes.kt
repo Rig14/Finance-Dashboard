@@ -1,6 +1,5 @@
 package users
 
-import auth.Access
 import auth.Public
 import klite.Email
 import klite.HttpExchange
@@ -31,7 +30,7 @@ class UserRoutes(
     e.cookie("jwt", token, now().plusSeconds(10.days.inWholeSeconds))
   }
 
-  @Access
+  @Public
   @GET("/user")
-  fun currentUser(@AttrParam user: User) = user
+  fun currentUser(@AttrParam user: User?) = user
 }
