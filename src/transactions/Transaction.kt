@@ -14,7 +14,7 @@ data class Transaction (
   val creditDebitIndicator: CreditDebitIndicator,
   val userId: Id<User>,
   val accountId: UUID,
-  val hashCode: Int,
+  val entryReference: String,
   val date: LocalDate?,
   val creditor: String?,
   val categoryCode: ISO20022?,

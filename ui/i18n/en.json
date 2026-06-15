@@ -12,6 +12,9 @@
     "technical": "Technical error, please try again"
   },
   "dashboard": {
+    "importComplete": "Import completed",
+    "newTransactionsAdded": "New transactions added",
+    "transactionsSkipped": "Transactions skipped",
     "bankNotConnected": "You have not connected any banks to this account. Choose a bank to authorize for access."
   }
 }

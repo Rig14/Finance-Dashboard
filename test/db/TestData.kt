@@ -15,7 +15,7 @@ import java.util.UUID.randomUUID
 /** Immutable domain object samples for unit tests */
 object TestData {
   val user = User(Email("user@user.com"), randomUUID(), Id(2))
-  val enableBankingTransaction = EnableBankingTransaction(transactionAmount = AmountType("EUR", "1"), creditDebitIndicator = CRDT, status = BOOK)
+  val enableBankingTransaction = EnableBankingTransaction(transactionAmount = AmountType("EUR", "1"), creditDebitIndicator = CRDT, status = BOOK, entryReference = "20261012293-200")
   val transaction = Transaction(
     amount = Decimal.ONE,
     creditor = "Rimi Eesti OÜ",
@@ -25,6 +25,6 @@ object TestData {
     categoryCode = ISO20022("0012"),
     accountId = randomUUID(),
     note = "Transaction 102x92md, some other text",
-    hashCode = enableBankingTransaction.hashCode()
+    entryReference = enableBankingTransaction.entryReference!!
   )
 }

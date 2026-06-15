@@ -4,11 +4,17 @@
   import api from 'src/api/api'
   import {CountryCode, type GetAspspsResponse, type StartAuthorizationResponse} from 'src/api/types'
   import Spinner from 'src/components/Spinner.svelte'
+  import {showToast} from 'src/stores/toasts'
 
   async function initiateAuth(bankName: string, country: CountryCode) {
     const query = new URLSearchParams({bankName, country})
     const res = await api.get<StartAuthorizationResponse>(`enablebanking/auth?${query}`)
     window.location.href = res.url
+  }
+
+  async function refreshTransactions() {
+    const res = await api.get<{imported: string, skipped: string}>("transactions/refresh")
+    showToast(`${t.dashboard.importComplete}. ${res.imported} ${t.dashboard.newTransactionsAdded}. ${res.skipped} ${t.dashboard.transactionsSkipped}`)
   }
 </script>
 
@@ -30,6 +36,6 @@
     </ul>
   {/await}
 {:else}
-  <button onclick={() => api.get("transactions/refresh")}>button</button>
+  <button onclick={refreshTransactions}>button</button>
 {/if}
 
