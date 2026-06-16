@@ -20,7 +20,10 @@ describe('api', () => {
 
   it('refreshes on next navigate if version mismatch', async () => {
     window.apiVersion = '2.3'
-    window.location = {reload: vi.fn()} as unknown as Location
+    Object.defineProperty(window, 'location', {
+      writable: true,
+      value: { reload: vi.fn() }
+    });
     fetch.mockResolvedValue({...successfulResponse, headers: {get: () => '2.2'}})
     await api.requestJson('path', {body: {data: 'data'}})
     expect(location.reload).toHaveBeenCalled()

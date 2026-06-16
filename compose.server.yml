@@ -1,0 +1,23 @@
+services:
+  app:
+    restart: unless-stopped
+    volumes:
+      - .env:/app/.env:ro
+    labels:
+      - caddy=finance.rivis.ee
+      - caddy.reverse_proxy={{upstreams 8080}}
+      - caddy.reverse_proxy.lb_retries=10
+      - caddy.reverse_proxy.lb_try_interval=500ms
+
+  proxy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    restart: unless-stopped
+    environment:
+      - CADDY_INGRESS_NETWORKS=${COMPOSE_PROJECT_NAME}_default
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - "./caddy_data:/data"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
