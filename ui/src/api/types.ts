@@ -157,8 +157,10 @@ export enum TransactionStatus {BOOK = 'BOOK', CNCL = 'CNCL', HOLD = 'HOLD', OTHR
 export enum TransactionsFetchStrategy {DEFAULT = 'DEFAULT', LONGEST = 'LONGEST'}
 // class enablebanking.Usage
 export enum Usage {ORGA = 'ORGA', PRIV = 'PRIV'}
+// class transactions.SpendCategory
+export enum SpendCategory {HOUSING_AND_UTILITIES = 'HOUSING_AND_UTILITIES', GROCERIES = 'GROCERIES', GAS_AND_FUEL = 'GAS_AND_FUEL', TRANSIT_AND_COMMUTING = 'TRANSIT_AND_COMMUTING', AUTO_MAINTENANCE = 'AUTO_MAINTENANCE', HEALTHCARE = 'HEALTHCARE', RESTAURANTS = 'RESTAURANTS', FAST_FOOD_AND_COFFEE = 'FAST_FOOD_AND_COFFEE', ENTERTAINMENT = 'ENTERTAINMENT', TRAVEL_AND_VACATION = 'TRAVEL_AND_VACATION', SHOPPING_AND_CLOTHING = 'SHOPPING_AND_CLOTHING', PERSONAL_CARE = 'PERSONAL_CARE', SUBSCRIPTIONS_AND_DIGITAL = 'SUBSCRIPTIONS_AND_DIGITAL', FINANCIAL_AND_FEES = 'FINANCIAL_AND_FEES', OTHER = 'OTHER'}
 // class transactions.Transaction
-export interface Transaction {accountId: string; amount: number; categoryCode?: string; creditDebitIndicator: CreditDebitIndicator; creditor?: string; date?: LocalDate; entryReference: string; id: Id<Transaction>; note?: string; userId: Id<User>}
+export interface Transaction {accountId: string; amount: number; categoryCode: SpendCategory; creditDebitIndicator: CreditDebitIndicator; creditor?: string; date?: LocalDate; entryReference: string; id: Id<Transaction>; note?: string; userId: Id<User>}
 // class users.Payload
 export interface Payload {aud?: string; exp: number; iat: number; iss?: string; userId?: Id<User>}
 // class users.User

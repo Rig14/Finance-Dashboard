@@ -40,7 +40,7 @@ class TransactionsRoutes(
             date = it.bookingDate,
             accountId = accountId,
             userId = user.id,
-            categoryCode = it.merchantCategoryCode,
+            categoryCode = it.merchantCategoryCode.let { cat -> SpendCategory.fromMcc(cat ?: "") },
             note = "note: ${it.note}\n\nremittance information: ${it.remittanceInformation?.joinToString()}",
           ))
           importedTransactionCount++
