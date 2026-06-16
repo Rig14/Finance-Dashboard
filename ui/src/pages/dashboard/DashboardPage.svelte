@@ -18,7 +18,7 @@
   }
 </script>
 
-{#if !$user?.sessionId}
+{#if $user && !$user?.sessionId}
   {t.dashboard.bankNotConnected}
 
   {#await api.get<GetAspspsResponse>('enablebanking/banks?country=EE')}
