@@ -22,7 +22,7 @@ class TransactionsRoutes(
 
   @GET("/refresh") suspend fun updateTransactions(@AttrParam user: User): Map<String, Int> {
     if (user.sessionId == null) throw BadRequestException("No session")
-    val sessionData = bankClient.sessionsData(user.sessionId)
+    val sessionData = bankClient.sessionsData(user.sessionId, user)
 
     var importedTransactionCount = 0
     var skippedTransactionCount = 0

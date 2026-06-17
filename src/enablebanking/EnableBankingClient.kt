@@ -1,6 +1,9 @@
 package enablebanking
 
+import enablebanking.SessionStatus.EXPIRED
+import klite.Config
 import klite.http.httpClient
+import klite.isDev
 import klite.json.JsonHttpClient
 import klite.json.JsonMapper
 import klite.urlEncodeParams
@@ -12,6 +15,7 @@ import java.net.URI
 import java.time.Instant
 import java.time.LocalDate
 import java.util.*
+import java.util.UUID.randomUUID
 
 class EnableBankingClient(
   private val userRepository: UserRepository,
@@ -25,8 +29,8 @@ class EnableBankingClient(
     val body = StartAuthorizationRequest(
       aspsp = ASPSP(bankName, country),
       access = Access(validUntil = validUntil),
-      state = UUID.randomUUID().toString(),
-      redirectUrl = URI("http://localhost:8000/session")
+      state = randomUUID().toString(),
+      redirectUrl = URI(if (Config.isDev) "http://localhost:8000/session" else "https://finance.rivis.ee/session")
     )
 
     return http.post<StartAuthorizationResponse>("/auth", body)
@@ -39,7 +43,11 @@ class EnableBankingClient(
     return session
   }
 
-  suspend fun sessionsData(sessionId: UUID) = http.get<GetSessionResponse>("/sessions/$sessionId")
+  suspend fun sessionsData(sessionId: UUID, user: User): GetSessionResponse {
+    val res = http.get<GetSessionResponse>("/sessions/$sessionId")
+    if (res.status == EXPIRED) userRepository.update(user.copy(sessionId = null))
+    return res
+  }
   suspend fun transactions(accountId: UUID, dateRange: ClosedRange<LocalDate> = LocalDate.now().minusMonths(1)..LocalDate.now()): List<EnableBankingTransaction> {
     val result = mutableListOf<EnableBankingTransaction>()
     var key: String? = null

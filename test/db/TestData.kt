@@ -3,10 +3,10 @@ package db
 import enablebanking.AmountType
 import enablebanking.CreditDebitIndicator.CRDT
 import enablebanking.EnableBankingTransaction
-import enablebanking.ISO20022
 import enablebanking.TransactionStatus.BOOK
 import klite.Decimal
 import klite.Email
+import transactions.SpendCategory
 import transactions.Transaction
 import users.User
 import java.time.LocalDate.now
@@ -22,7 +22,7 @@ object TestData {
     creditDebitIndicator = CRDT,
     date = now().minusWeeks(1),
     userId = user.id,
-    categoryCode = ISO20022("0012"),
+    categoryCode = SpendCategory.fromMcc("0012"),
     accountId = randomUUID(),
     note = "Transaction 102x92md, some other text",
     entryReference = enableBankingTransaction.entryReference!!
